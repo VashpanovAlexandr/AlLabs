@@ -81,7 +81,7 @@ public:
     ~Array() {
         deinit();
     }
-
+    // 
     Array& operator=(const Array& other) {
         if (this == &other) {
             return *this;
@@ -97,15 +97,14 @@ public:
     }
 
     Array& operator=(Array&& other) noexcept {
+        if (this == &other) {
+            return *this;
+        }
         deinit();
 
-        buf_ = other.buf_;
-        length_ = other.length_;
-        capacity_ = other.capacity_;
-
-        other.buf_ = nullptr;
-        other.length_ = 0;
-        other.capacity_ = kDefCapacity_;
+        std::swap(buf_, other.buf_);
+        std::swap(length_, other.length_);
+        std::swap(capacity_, other.capacity_);
 
         return *this;
     }

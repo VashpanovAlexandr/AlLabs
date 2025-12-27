@@ -74,14 +74,14 @@ GameState::GameState():
 
 void GameState::getReport() const
 {
-    std::cout << "Мой повелитель, соизволь поведать тебе \n";
-    std::cout << "В " << round << " году твоего высочайшего правления\n";
+    std::cout << "Данные: \n";
+    std::cout << "В " << round << " году:\n";
 
     if ( wasteResources.people > 0 )
     {
         std::cout << wasteResources.people << " человек умерли с голоду";
         if ( incomeResources.people > 0 )
-            std::cout << ", и " << incomeResources.people << " человек прибыли в наш великий город.\n";
+            std::cout << ", и " << incomeResources.people << " человек прибыли.\n";
         else
             std::cout << ".\n";
     }
@@ -111,58 +111,58 @@ void GameState::getReport() const
 GameState::ResourcesToUse GameState::getPlayerInput() const
 {
     GameState::ResourcesToUse resourcesToUse = {0, 0, 0, 0};
-    std::cout << "Что пожелаешь, повелитель?\n";
+    std::cout << "Что сделать?\n";
 
-    std::cout << "Сколько акров земли повелеваешь купить? ";
+    std::cout << "Сколько акров земли купить? ";
     std::cin >> resourcesToUse.landToBuy;
 
     while ( landPrice * resourcesToUse.landToBuy > currentResources.grain )
     {
-        std::cout << "О, повелитель, пощади нас! У нас нет столько пшеницы, чтобы купить " << resourcesToUse.landToBuy << " акров!\n";
+        std::cout << "Не хватает пшеницы, чтобы купить " << resourcesToUse.landToBuy << " акров!\n";
         std::cin >> resourcesToUse.landToBuy;
     }
 
-    std::cout << "Сколько акров земли повелеваешь продать? ";
+    std::cout << "Сколько акров земли продать? ";
     std::cin >> resourcesToUse.landToSell;
 
     while (currentResources.land - resourcesToUse.landToSell < 0)
     {
-        std::cout << "О, повелитель, пощади нас! У нас нет столько земли, чтобы продать " << resourcesToUse.landToSell << " акров!\n";
+        std::cout << "Не хватает столько земли, чтобы продать " << resourcesToUse.landToSell << " акров!\n";
         std::cin >> resourcesToUse.landToSell;
     }
     int landAfterSell = currentResources.land - resourcesToUse.landToSell;
 
-    std::cout << "Сколько бушелей пшеницы повелеваешь съесть? ";
+    std::cout << "Сколько бушелей пшеницы съесть? ";
     std::cin >> resourcesToUse.grainToEat;
 
     while (currentResources.grain - resourcesToUse.grainToEat < 0)
     {
-        std::cout << "О, повелитель, пощади нас! У нас нет столько пшеницы, чтобы съесть " << resourcesToUse.grainToEat << " бушелей!\n";
+        std::cout << "Нет столько пшеницы, чтобы съесть " << resourcesToUse.grainToEat << " бушелей!\n";
         std::cin >> resourcesToUse.grainToEat;
     }
     int grainAfterFood = currentResources.grain - resourcesToUse.grainToEat;
 
-    std::cout << "Сколько акров земли повелеваешь засеять? ";
+    std::cout << "Сколько акров земли засеять? ";
     int landToPlant;
     std::cin >> landToPlant;
     resourcesToUse.grainToPlant = landToPlant * 5;
 
     while ( landToPlant - landAfterSell > 0)
     {
-        std::cout << "О, повелитель, пощади нас! У нас нет столько земли, чтобы засеять " << landToPlant << " акров!\n";
+        std::cout << "Нет столько земли, чтобы засеять " << landToPlant << " акров!\n";
         std::cin >> landToPlant;
     }
 
     while ( resourcesToUse.grainToPlant > grainAfterFood)
     {
-        std::cout << "О, повелитель, пощади нас! У нас нет столько пшеницы, чтобы засеять " << landToPlant << " акров!\n";
+        std::cout << "Нет столько пшеницы, чтобы засеять " << landToPlant << " акров!\n";
         std::cin >> landToPlant;
         resourcesToUse.grainToPlant = landToPlant * 5;
     }
 
     while ( landToPlant * 10 > currentResources.people)
     {
-        std::cout << "О, повелитель, пощади нас! У нас нет столько людей, чтобы засеять " << landToPlant << " акров!\n";
+        std::cout << "Нет столько людей, чтобы засеять " << landToPlant << " акров!\n";
         std::cin >> landToPlant;
     }
 
@@ -188,7 +188,7 @@ bool GameState::processRound(int landToBuy, int landToSell, int grainToPlant, in
     if (currentResources.people > 0 && starvedThisRound > 0) {
         double starvationPercent = (static_cast<double>(starvedThisRound) / (currentResources.people + starvedThisRound)) * 100.0;
         if (starvationPercent > 45.0) {
-            std::cout << "Более 45% населения умерло от голода! Правитель Египта, ваше правление окончено!\n";
+            std::cout << "Более 45% населения умерло от голода! Ваше правление окончено!\n";
             return false;
         }
     }

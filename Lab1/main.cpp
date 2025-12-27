@@ -24,7 +24,7 @@ int main() {
             }
             else
             {
-                std::cout << "Ошибка загрузки сохранения. Начинаем новую игру.\n";
+                std::cout << "Ошибка загрузки сохранения\n";
                 game = GameState();
             }
         }
@@ -36,7 +36,7 @@ int main() {
     }
     else
     {
-        std::cout << "Начинаем новую игру 'Правитель Египта'.\n";
+        std::cout << "Начинаем новую игру.\n";
     }
 
     bool gameRunning = true;
@@ -44,14 +44,14 @@ int main() {
     {
         game.getReport();
 
-        std::cout << "Желаете сохранить игру и выйти? (y/n): ";
+        std::cout << "Сохранить игру и выйти? (y/n): ";
         char exitChoice;
         std::cin >> exitChoice;
 
         if (exitChoice == 'y' || exitChoice == 'Y')
         {
             game.saveToFile(saveFileName);
-            std::cout << "Игра сохранена. До встречи, правитель!\n";
+            std::cout << "Игра сохранена\n";
             return 0;
         }
         else if (exitChoice == 'n' || exitChoice == 'N')
