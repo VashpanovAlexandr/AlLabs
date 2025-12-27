@@ -50,6 +50,9 @@ public:
             }
             free(buf_);
         }
+        buf_ = nullptr;
+        length_ = 0;
+        capacity_ = kDefCapacity_;
     }
 
     Array() : capacity_{ kDefCapacity_ }, length_{ 0 } {
@@ -83,10 +86,6 @@ public:
     }
     // 
     Array& operator=(const Array& other) {
-        if (this == &other) {
-            return *this;
-        }
-
         Array tmp(other);
 
         std::swap(buf_, tmp.buf_);
@@ -97,9 +96,6 @@ public:
     }
 
     Array& operator=(Array&& other) noexcept {
-        if (this == &other) {
-            return *this;
-        }
         deinit();
 
         std::swap(buf_, other.buf_);
